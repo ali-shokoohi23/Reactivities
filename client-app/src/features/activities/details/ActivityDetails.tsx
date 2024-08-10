@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Button,
   ButtonGroup,
@@ -11,13 +10,21 @@ import {
 } from "semantic-ui-react";
 import { useStore } from "../../../app/stores/Store";
 import { observer } from "mobx-react-lite";
+import LoadingComponent from "../../../app/layout/LoadingComponent";
+import { Link, useParams } from "react-router-dom";
+import { useEffect } from "react";
 
 
 const ActivityDetails = () => {
   const {activityStore} = useStore();
-  const {selectedActivity: activity, openForm, cancelSelectedActivity} = activityStore;
+  const {selectedActivity: activity, loadActivity, loadingInitial} = activityStore;
+  const {id} = useParams();
 
-  if (!activity) return;
+  useEffect(() => {
+    if (id) loadActivity(id);
+  },[id, loadActivity])
+
+  if (loadingInitial || !activity) return <LoadingComponent />;
   return (
     <Card key={activity.id} fluid>
       <Image src={`/assets/categoryImages/${activity.category}.jpg`} />
@@ -30,8 +37,8 @@ const ActivityDetails = () => {
       </CardContent>
       <CardContent extra>
         <ButtonGroup widths="2">
-          <Button onClick={() => openForm(activity.id)} color="blue" content="Edit" />
-          <Button onClick={cancelSelectedActivity} color="grey" content="Cancel" />
+          <Button as={Link} to={`/manage/${activity.id}`} color="blue" content="Edit" />
+          <Button as={Link} to="/activities" color="grey" content="Cancel" />
         </ButtonGroup>
       </CardContent>
     </Card>
