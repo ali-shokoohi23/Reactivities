@@ -6,15 +6,13 @@ import {
   FormTextArea,
   Segment,
 } from "semantic-ui-react";
-import { Activity } from "../../../app/models/activity";
+import { useStore } from "../../../app/stores/Store";
+import { observer } from "mobx-react-lite";
 
-interface Props {
-  activity: Activity | undefined;
-  closeForm: () => void;
-  createOrEdit: (activity: Activity) => void;
-  submitting: boolean;
-}
-const ActivityForm = ({ activity: selectedActivity, closeForm, createOrEdit, submitting}: Props) => {
+const ActivityForm = () => {
+  
+  const {activityStore} = useStore();
+  const {closeForm, selectedActivity, createActivity, updateActivity, loading} = activityStore;
   const initialState = selectedActivity ?? {
     id: "",
     title: "",
@@ -27,8 +25,7 @@ const ActivityForm = ({ activity: selectedActivity, closeForm, createOrEdit, sub
   const [activity, setActivity] = useState(initialState);
   
   const handleSubmit = () => {
-    console.log(activity);
-    createOrEdit(activity)
+    activity.id ? updateActivity(activity) : createActivity(activity);
   }
   const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>{
     const {name, value} = event.target;
@@ -44,7 +41,7 @@ const ActivityForm = ({ activity: selectedActivity, closeForm, createOrEdit, sub
         <FormInput type='date' placeholder="Date" value={activity.date} onChange={handleInputChange} name="date" />
         <FormInput placeholder="City" value={activity.city} onChange={handleInputChange} name="city" />
         <FormInput placeholder="Venue" value={activity.venue} onChange={handleInputChange} name="venue" />
-        <Button loading={submitting} floated="right" positive type="submit" content="Submit" />
+        <Button loading={loading} floated="right" positive type="submit" content="Submit" />
         <Button
           onClick={closeForm}
           floated="right"
@@ -56,4 +53,4 @@ const ActivityForm = ({ activity: selectedActivity, closeForm, createOrEdit, sub
   );
 };
 
-export default ActivityForm;
+export default observer(ActivityForm);
