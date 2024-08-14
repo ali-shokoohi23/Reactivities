@@ -20,7 +20,7 @@ const ProfileCard = ({ profile }: Props) => {
       <Image src={profile.image || "/assets/user.png"} />
       <CardContent>
         <CardHeader content={profile.displayName} />
-        <CardDescription content={`bio: ${profile.bio}`} />
+        <CardDescription content={profile.bio ? `bio: ${profile.bio}` : ""} />
       </CardContent>
       <CardContent extra>
         <Icon name="user" />
