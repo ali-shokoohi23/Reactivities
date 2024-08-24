@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { router } from "../router/Routes";
 import { store } from "../stores/Store";
 import { User, UserFormValues } from "../models/user";
+import { Photo, Profile } from "../models/profile";
 
 const sleep = (delay: number) => {
   return new Promise((resolve) => {
@@ -27,7 +28,7 @@ axios.interceptors.response.use(
     return response;
   },
   (error: AxiosError) => {
-    const { data, status, config } = error.response as AxiosResponse; 
+    const { data, status, config } = error.response as AxiosResponse;
     switch (status) {
       case 400:
         if (config.method === "get" && data.errors.hasOwnProperty("id")) {
@@ -74,11 +75,12 @@ const requests = {
 const Activities = {
   list: () => requests.get<Activity[]>("/activities"),
   details: (id: string) => requests.get<Activity>(`/activities/${id}`),
-  create: (activity: ActivityFormValues) => requests.post<void>("activities", activity),
+  create: (activity: ActivityFormValues) =>
+    requests.post<void>("activities", activity),
   update: (activity: ActivityFormValues) =>
     requests.put<void>(`activities/${activity.id}`, activity),
   delete: (id: string) => requests.delete<void>(`/activities/${id}`),
-  attend: (id: string) => requests.post<void>(`/activities/${id}/attend`, {})
+  attend: (id: string) => requests.post<void>(`/activities/${id}/attend`, {}),
 };
 
 const Account = {
@@ -88,9 +90,23 @@ const Account = {
     requests.post<User>("/account/register", user),
 };
 
+const Profiles = {
+  get: (username: string) => requests.get<Profile>(`/profiles/${username}`),
+  uploadPhoto: (file: Blob) => {
+    let formData = new FormData();
+    formData.append("File", file);
+    return axios.post<Photo>("photos", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+  },
+  setMainPhoto: (id: string) => requests.post(`/photos/${id}/setMain`, {}),
+  deletePhoto: (id: string) => requests.delete(`/photos/${id}`)
+};
+
 const agent = {
   Activities,
   Account,
+  Profiles,
 };
 
 export default agent;

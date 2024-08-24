@@ -28,7 +28,7 @@ export default class UserStore {
     } catch (error) {
       throw error;
     }
-  }
+  };
 
   login = async (creds: UserFormValues) => {
     try {
@@ -59,6 +59,12 @@ export default class UserStore {
       runInAction(() => (this.user = user));
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  setImage = (image: string) => {
+    if (this.user) {
+      this.user.image = image;
     }
   };
 }
