@@ -15,12 +15,17 @@ interface Props {
 }
 
 const ProfileCard = ({ profile }: Props) => {
+  const truncate = (str: string | undefined) => {
+    if (str) {
+      return str.length > 40 ? str.substring(0, 37) + "..." : str;
+    }
+  };
   return (
     <Card as={Link} to={`/profiles/${profile.username}`}>
       <Image src={profile.image || "/assets/user.png"} />
       <CardContent>
         <CardHeader content={profile.displayName} />
-        <CardDescription content={profile.bio ? `bio: ${profile.bio}` : ""} />
+        <CardDescription content={truncate(profile.bio)} />
       </CardContent>
       <CardContent extra>
         <Icon name="user" />
