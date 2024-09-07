@@ -1,20 +1,19 @@
-import { Message, MessageItem, MessageList } from "semantic-ui-react";
+import { Message } from "semantic-ui-react";
 
 interface Props {
   errors: any;
 }
-const ValidationError = ({ errors }: Props) => {
+
+export default function ValidationError({ errors }: Props) {
   return (
     <Message error>
       {errors && (
-        <MessageList>
+        <Message.List>
           {errors.map((err: string, i: any) => (
-            <MessageItem key={i}>{err}</MessageItem>
+            <Message.Item key={i}>{err}</Message.Item>
           ))}
-        </MessageList>
+        </Message.List>
       )}
     </Message>
   );
-};
-
-export default ValidationError;
+}

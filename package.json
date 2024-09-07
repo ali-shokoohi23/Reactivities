@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@microsoft/signalr": "^8.0.7",
     "react-cropper": "^2.3.3"
   }
 }
