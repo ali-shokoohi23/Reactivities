@@ -104,6 +104,7 @@ const Profiles = {
   updateProfile: (profile: Partial<Profile>) => requests.put(`/profiles`, profile),
 };
 
+
 const agent = {
   Activities,
   Account,

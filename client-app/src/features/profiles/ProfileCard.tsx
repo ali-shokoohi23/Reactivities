@@ -29,7 +29,7 @@ const ProfileCard = ({ profile }: Props) => {
       </CardContent>
       <CardContent extra>
         <Icon name="user" />
-        20 Followers
+        {profile.followersCount} followers
       </CardContent>
     </Card>
   );

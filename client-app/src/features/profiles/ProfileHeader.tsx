@@ -41,8 +41,8 @@ const ProfileHeader = ({ profile }: Props) => {
         </GridColumn>
         <GridColumn width={4}>
           <StatisticGroup widths={2}>
-            <Statistic label="Followers" value={"5"} />
-            <Statistic label="Followings" value={"10"} />
+            <Statistic label="Followers" value={profile.followersCount} />
+            <Statistic label="Followings" value={profile.followingCount} />
           </StatisticGroup>
           <Divider />
           <Reveal animated="move">
