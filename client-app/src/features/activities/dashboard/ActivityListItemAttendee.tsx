@@ -11,7 +11,7 @@ interface Props {
 const ActivityListItemAttendee = ({ attendees }: Props) => {
   const styles = {
     borderColor: "orange",
-    borderWidth: 2,
+    borderWidth: 3,
   };
   return (
     <List horizontal>
